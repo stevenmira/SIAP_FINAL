@@ -105,7 +105,7 @@
                             <td> <b>${{$tcuotaspendientes}}</b></td>
                           </tr>
                           <tr>
-                            <td><b>{{$tcuotascanceladas}}</b> CUOTAS DE <b>${{$cliente->cuotadiaria}}</b> DEL {{$fechapendiente}} AL {{$fechafinal}}</td>
+                            <td><b>{{$tcuotascanceladas}}</b> CUOTAS DE <b>${{$cliente->cuotadiaria}}</b></td>
                             <td> <b>${{$totalcancelado}}</b></td>
                           </tr>
                           <tr>
@@ -113,7 +113,7 @@
                             <td> <b>${{$liquidacion->monto}}</b></td>
                           </tr>
                           <tr>
-                            <td class="col-xs-12 col-sm-12 col-md-8 col-lg-8">MORA POR INCUMPLIMIENTO DE CONTRATO DE UN CAPITAL DE <b>{{$liquidacion->monto}}*{{$cliente->interes*100}}*{{$diasatrasados}}</b> DIAS ATRASADOS:</td>
+                            <td class="col-xs-12 col-sm-12 col-md-8 col-lg-8">MORA POR INCUMPLIMIENTO DE CONTRATO DE UN CAPITAL DE <b>{{$liquidacio->monto}}*{{$cliente->interes*100}}*{{$diasatrasados}}</b> DIAS ATRASADOS:</td>
                             <td>{{$mora}}</td>
                           </tr>
                           <tr>

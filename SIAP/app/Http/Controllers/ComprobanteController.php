@@ -90,7 +90,11 @@ class ComprobanteController extends Controller
         $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
         
         $fechaactual =  $dias[date('w')]." ".date('d')." de ".$meses[date('n')-1]. " del ".date('Y');
-
+        
+        $liquidacio=DB::table('detalle_liquidacion')->where([
+            ['idcuenta','=',$id],
+            ['monto','!=',null],])
+            ->orderBy('monto','asc')->first();
 
         //<-----CALCULOS PARA ESTADOS DE CUENTA NORMALES ------>
 
@@ -138,9 +142,13 @@ class ComprobanteController extends Controller
             ['idcuenta', '=', $id],
             ])->count();
             
+            if($tcuotascanceladas==0){
+                $totalcancelado=$tcuotascanceladas*$cliente->cuotadiaria;
+            }else{
             $tcuotascanceladas=$tcuotascanceladas-1;
-
             $totalcancelado=$tcuotascanceladas*$cliente->cuotadiaria;
+            }
+           
            
 
             
@@ -208,9 +216,9 @@ class ComprobanteController extends Controller
             $mese = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
             $fechafinal =  $dia[date('w')]." ".date('d')." de ".$mese[date('n')-1]. " del ".date('Y');
             
-            $subtotal= $cuotaCapital+$totalcancelado+$tcuotaspendientes+$mora;
+            $subtotal= $liquidacion->monto+$totalcancelado+$tcuotaspendientes+$mora;
            $subtotal=round($subtotal,2);
-            return view('estadoCuenta.vencido.create',[ "cuotaCapital"=>$cuotaCapital,"fechapendiente"=>$fechapendiente,"fechafinal"=>$fechafinal,"mora"=>$mora,"diasatrasados"=>$diasatrasados,"cuotaspendientes"=>$cuotaspendientes,"tcuotaspendientes"=>$tcuotaspendientes,"totalcancelado"=>$totalcancelado, "ultimacuota"=>$ultimacuota, "tcuotascanceladas"=>$tcuotascanceladas,"fechaactual"=>$fechaactual,"usuarioactual"=>$usuarioactual,"cliente"=>$cliente,"subtotal"=>$subtotal,"liquidacion"=>$liquidacion,"cuotasatrasadas"=>$cuotasatrasadas,"totalcuotas"=>$totalcuotas]);
+            return view('estadoCuenta.vencido.create',[ "liquidacio"=>$liquidacio,"cuotaCapital"=>$cuotaCapital,"fechapendiente"=>$fechapendiente,"fechafinal"=>$fechafinal,"mora"=>$mora,"diasatrasados"=>$diasatrasados,"cuotaspendientes"=>$cuotaspendientes,"tcuotaspendientes"=>$tcuotaspendientes,"totalcancelado"=>$totalcancelado, "ultimacuota"=>$ultimacuota, "tcuotascanceladas"=>$tcuotascanceladas,"fechaactual"=>$fechaactual,"usuarioactual"=>$usuarioactual,"cliente"=>$cliente,"subtotal"=>$subtotal,"liquidacion"=>$liquidacion,"cuotasatrasadas"=>$cuotasatrasadas,"totalcuotas"=>$totalcuotas]);
         }
         else{
             $subtotal=$totalcuotas+$liquidacion->monto;
@@ -235,6 +243,7 @@ class ComprobanteController extends Controller
         ->where('cuenta.idcuenta','=',$id)
         ->first();
 
+        
         $liquidacion=DB::table('detalle_liquidacion')->where([
             ['idcuenta','=',$id],
             ['monto','!=',null],])
@@ -287,7 +296,7 @@ class ComprobanteController extends Controller
             //SE OBTIENE LA ULTIMA CUOTA
             $ultimacuota=1;
 
-            $totalultima=$liquidacion->monto-$totalcancelado;
+            
             
             $liquida=DetalleLiquidacion::where('idcuenta','=',$id)->orderBy('iddetalleliquidacion','DESC')->take(1)->first();
             $fechaidealpago=$liquida->fechadiaria;
@@ -297,8 +306,21 @@ class ComprobanteController extends Controller
            }else{
             $diasatrasados = $fechaidealpago->diffInDays(Carbon::now());
            }
-            
            $mora=$liquidacion->monto*$cliente->interes*$diasatrasados;
+
+           $interesDiario = $liquidacion->monto * $cliente->interes;
+           $cuotaCapital = $liquidacion->monto;
+          
+
+          while ($liquidacion->monto > $cliente->cuotadiaria) {
+           
+           $cuotaCapital = $cliente->cuotadiaria - $interesDiario;
+           $liquidacion->monto = ($liquidacion->monto - $cuotaCapital);
+           $interesDiario = $liquidacion->monto * $cliente->interes;
+           $liquidacion->monto=round($liquidacion->monto,2);
+       }
+            $totalultima=$liquidacion->monto;
+           
            $total=$totalultima+$totalcancelado+$tcuotaspendientes+$mora;
            $total=round($total,2);
 
