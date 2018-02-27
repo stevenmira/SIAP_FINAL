@@ -41,6 +41,11 @@
                   </tr>
 
                   <tr>
+                    <td>PROFESION:</td>
+                    <td>{{ $cliente->profesion}}</td>
+                  </tr>
+
+                  <tr>
                     <td>NIT:</td>
                     <td>{{ $cliente->nit }}</td>
                   </tr>
