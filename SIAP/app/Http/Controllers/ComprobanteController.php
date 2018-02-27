@@ -249,6 +249,11 @@ class ComprobanteController extends Controller
             ['monto','!=',null],])
             ->orderBy('monto','asc')->first();
 
+            $liquidacio=DB::table('detalle_liquidacion')->where([
+                ['idcuenta','=',$id],
+                ['monto','!=',null],])
+                ->orderBy('monto','asc')->first();
+
         $cuotasatrasadas = DB::table('detalle_liquidacion')->where([
             ['estado', '=', 'ATRASO'],
             ['idcuenta', '=', $id],
@@ -343,7 +348,7 @@ class ComprobanteController extends Controller
             $estado->cuotadeuda=$tcuotascanceladas;
             $estado->totalcuotasdeuda=$totalcancelado;
             $estado->ultimacuota=$totalultima;
-            $estado->montoactual=$liquidacion->monto;
+            $estado->montoactual=$liquidacio->monto;
             $estado->total = $total+$estado->gastosadmon+$estado->gastosnotariales; 
             $estado->estado='VENCIDO';
             $estado->estadodos='NO CANCELADO';
@@ -422,10 +427,11 @@ class ComprobanteController extends Controller
 
         $estado = Comprobante::findOrFail($id);
         $estado->idcuenta=$estado->idcuenta;
+        $subtotal=$estado->total- $estado->gastosadmon- $estado->gastosnotariales;
         $estado->gastosadmon =  $data['gastosadmon'];
         $estado->gastosnotariales= $data['gastosnoti'];
         
-        if(($cliente->estadodos=="CERRADO" || $cliente->estadodos=="CERRADO") && $estado->estado=="VENCIDO"){
+        if(($cliente->estadodos=="VENCIDO" || $cliente->estadodos=="CERRADO") && $estado->estado=="VENCIDO"){
            
             $estado->mora=$estado->mora;
             $estado->diasatrasados= $estado->diasatrasados;
@@ -435,8 +441,8 @@ class ComprobanteController extends Controller
             $estado->cuotadeuda=$estado->cuotadeuda;
             $estado->totalcuotasdeuda=$estado->totalcuotasdeuda;
             $estado->ultimacuota=$estado->ultimacuota;
-            $estado->montoactual=0;
-            $estado->total = $estado->mora+$estado->ultimacuota+$estado->totalpendiente+$estado->totalcuotasdeuda+$estado->gastosadmon =  $data['gastosadmon']+$estado->gastosnotariales= $data['gastosnoti']; 
+            $estado->montoactual=$estado->montoactual;
+            $estado->total = $subtotal+$estado->gastosadmon+$estado->gastosnotariales; 
             $estado->estado='VENCIDO';
             $estado->estadodos='NO CANCELADO';
         }
