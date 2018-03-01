@@ -163,7 +163,7 @@
                 <div class="input-group-addon">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </div>
-                {!! Form::number('cuota', null, ['class' => 'form-control' , 'required' => 'required','step'=>'0.01',  'placeholder'=>'Introduzca la cuota del cliente', 'autofocus'=>'on']) !!}
+                {!! Form::number('cuota', null, ['class' => 'form-control' , 'required' => 'required','min'=>'0','step'=>'0.01',  'placeholder'=>'Introduzca la cuota del cliente', 'autofocus'=>'on']) !!}
               </div>
             </div>
 

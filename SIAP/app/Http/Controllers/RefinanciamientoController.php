@@ -40,15 +40,15 @@ class RefinanciamientoController extends Controller
 
         if (is_null($cuenta)) {
             Session::flash('ban',1);
-            Session::flash('error5', "El cliente no posee un credito el cual refinanciar");
+            Session::flash('error5', "El cliente ".$cliente->nombre." ".$cliente->apellido." no posee un credito el cual refinanciar");
             return view('tipoCredito.fracaso', ["clientes" => $clientes, "usuarioactual" => $usuarioactual]);
         }
         $banderaDetalleLiquidacion = DetalleLiquidacion::where('idcuenta', $cuenta->idcuenta)->where('estado', '=', 'ABONO')->first();
 
         if (!is_null($banderaDetalleLiquidacion)) {
             Session::flash('ban',1);
-            Session::flash('error5', "El cliente tiene abonos pendientes");
-            return view('tipoCredito.fracaso', ["clientes" => $clientes, "usuarioactual" => $usuarioactual]);
+            Session::flash('error5', "El cliente ".$cliente->nombre." ".$cliente->apellido." tiene abonos pendientes.");
+            return view('tipoCredito.fracaso', ["clientes" => $clientes, "usuarioactual" => $usuarioactual,"cuenta"=>$cuenta->idcuenta]);
         }
 
         //se comprueba que el cliente solicitante debe poseer un credito abierto.

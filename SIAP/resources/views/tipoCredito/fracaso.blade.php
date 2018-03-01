@@ -54,15 +54,20 @@
    
     <div class="alert  fade in" style="background:  #ff8a80;">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-      <h4>   <b>{{ Session::get('error5')}}</b>  </h4>
+    <h4>   <b>{{ Session::get('error5')}}</b> Puede revisar la <a href="{{url('cuenta/carteraPagos/'.$cuenta)}}">cartera de pago</a>  </h4>
     </div>
-    @else
-    <div class="alert  fade in" style="background:  #ccff90;">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-      <h4>{{ Session::get('exito1')}}.</h4>
-    </div>
-    
     @endif
+
+
+    @if(Session::has('error6'))
+    <div class="alert  fade in" style="background:  #ff8a80;">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      <h4>   <b>{{ Session::get('error1')}}</b>  </h4>
+    </div>
+    @endif
+
+
+
     <!-- Fin Notificación -->
 
 

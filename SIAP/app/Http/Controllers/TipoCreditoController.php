@@ -38,7 +38,7 @@ class TipoCreditoController extends Controller
         
         //se comprueba que el cliente solicitante no posea un credito abierto.
         if (!is_null($cuenta)) {
-            Session::flash('fallo', "El negocio del cliente ya posee una cuenta abierta");
+            Session::flash('fallo', "El negocio del cliente ".$cliente->nombre." ".$cliente->apellido." ya posee una cuenta abierta");
             return view('tipoCredito.completo.create', ["clientes" => $clientes, "usuarioactual" => $usuarioactual]);    
         }
 
@@ -54,7 +54,7 @@ class TipoCreditoController extends Controller
             if($interesDiario>$request->get('cuota'))
         {
             Session::flash('bandera',1);
-            Session::flash('error5', "Debe redefinir la Cuota, debe ser mayor de $".$interesDiario. "(Sugerencia de cuota: $".($interesDiario + 10)." )");
+            Session::flash('error6', "Debe redefinir la Cuota, debe ser mayor de $".$interesDiario." (Sugerencia de cuota: $".($interesDiario + 10)." )");
             return view('tipoCredito.fracaso', ["clientes" => $clientes, "usuarioactual" => $usuarioactual]);
         }
 
