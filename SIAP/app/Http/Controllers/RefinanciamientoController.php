@@ -40,7 +40,7 @@ class RefinanciamientoController extends Controller
 
         if (is_null($cuenta)) {
             Session::flash('ban',1);
-            Session::flash('error5', "El cliente ".$cliente->nombre." ".$cliente->apellido." no posee un credito el cual refinanciar");
+            Session::flash('error7', "El cliente ".$cliente->nombre." ".$cliente->apellido." no posee un credito el cual refinanciar");
             return view('tipoCredito.fracaso', ["clientes" => $clientes, "usuarioactual" => $usuarioactual]);
         }
         $banderaDetalleLiquidacion = DetalleLiquidacion::where('idcuenta', $cuenta->idcuenta)->where('estado', '=', 'ABONO')->first();

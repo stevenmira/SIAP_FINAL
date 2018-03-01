@@ -14,12 +14,7 @@
   <!-- Notificación -->
  
 
-  @if (Session::has('unicidad'))
-  <div class="alert  fade in" style="background:  #ff8a80;">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    <h4> No se pudo actualizar, el cliente con el número de DUI  <b>{{ Session::get('unicidad')}}</b>  ya está en uso.</h4>
-  </div>
-  @endif
+  
 
   @if (Session::has('update'))
   <div class="alert  fade in" style="background:  #bbdefb;">
@@ -38,7 +33,7 @@
   @if (Session::has('fallo'))
   <div class="alert  fade in" style="background:  #ff8a80;">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    <h4>   <b>{{ Session::get('fallo')}}</b>  </h4>
+  <h4>   <b>{{ Session::get('fallo')}}</b>. Vea los <a href="{{url('/record?idcliente='.$idcliente)}}">creditos abiertos</a> de este cliente.</h4>
   </div>
   @endif
 
