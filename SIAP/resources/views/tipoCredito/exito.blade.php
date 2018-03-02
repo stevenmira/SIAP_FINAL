@@ -56,7 +56,9 @@
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
       <h4>   <b>{{ Session::get('error5')}}</b>  </h4>
     </div>
-    @else
+    @endif
+
+    @if(Session::has('exito1'))
     <div class="alert  fade in" style="background:  #ccff90;">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
       <h4>{{ Session::get('exito1')}}.</h4>

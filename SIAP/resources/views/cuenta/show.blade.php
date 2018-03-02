@@ -222,9 +222,7 @@
        <a data-target="#modal-delete-{{$cuenta->idcuenta}}" data-toggle="modal" style="background: #ff8a80; color: black;" class="btn col-md-12 col-lg-12 btn-app" title="Cambiar estado de la cuenta">
        <i class="fa fa-info-circle" aria-hidden="true"></i> <b>Cuenta </b>
       </a>
-      <a data-target="#modal-deleteD-{{$cuenta->idcuenta}}" data-toggle="modal" style="background: #ff8a80; color: black;" class="btn col-md-12 col-lg-12 btn-app" title="Cambiar estado de la cuenta">
-          <i class="fa fa-times" aria-hidden="true"></i> <b>Eliminar Credito</b>
-         </a>
+     
       @endif
     </div>
 </aside>
@@ -237,5 +235,15 @@
 <div class="row">
   <a href="{{URL::action('RecordClienteController@index')}}" class="btn btn-danger btn-lg col-md-offset-2"><i class="fa fa-chevron-left" aria-hidden="true"></i> Atrás</a>
 </div>
+
+@if($usuarioactual->idtipousuario==1)
+<div class="footer text-right">
+  <div class="container-fluid">
+      <a href="#" data-target="#modal-deleteD-{{$cuenta->idcuenta}}" data-toggle="modal" style="color: red;"  title="Elimina el Crédito Actual">
+      <i class="fa fa-times" aria-hidden="true"></i> <b>Eliminar Crédito</b>
+     </a>
+  </div>
+</div>
+@endif
 
 @endsection
