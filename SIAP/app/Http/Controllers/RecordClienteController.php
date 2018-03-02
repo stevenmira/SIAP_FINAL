@@ -67,14 +67,14 @@ class RecordClienteController extends Controller
         $prestamo = Prestamo::where('idprestamo',$cuenta->idprestamo)->first();
         $tipo = TipoCredito::where('idtipocredito',$cuenta->idtipocredito)->first();
 
-        $entero = intval($prestamo->monto);
+        $entero = $prestamo->monto;
         $monto = \NumeroALetras::convertir($entero);
 
         //Calculo de decimales
         $montoS = $prestamo->monto;
         $decimales=$montoS*100;
         $cadena = (string)$decimales;
-        $dos = substr($cadena, -2);
+        $dos = \NumeroALetras::convertir(substr($cadena, -2));
 
         $cuota = $prestamo->cuotadiaria;
 
@@ -119,7 +119,7 @@ class RecordClienteController extends Controller
         
         setlocale(LC_TIME, "spanish");
         $meshoy = ucfirst(strftime("%B"));
-        $diahoy = $hoi[0];
+        $diahoy = \NumeroALetras::convertir($hoi[0]);
 
         $expe = explode("-", $nombre->fechaexpedicion);
         $fechaex = $expe[2]."/".$expe[1]."/".$expe[0];
@@ -131,14 +131,89 @@ class RecordClienteController extends Controller
         $newdui = explode("-", $dui);
         $du1 = \NumeroALetras::convertir($newdui[0]);
         $du2 = \NumeroALetras::convertir($newdui[1]);
+
+        $nit = $nombre->nit;
+        $newnit = explode("-", $nit);
+        $ni1 = \NumeroALetras::convertir($newnit[0]);
+        $ni2 = \NumeroALetras::convertir($newnit[1]);
+        $ni3 = \NumeroALetras::convertir($newnit[2]);
+        $ni4 = \NumeroALetras::convertir($newnit[3]);
+
+        $rest = substr($dui, -10, 1);
+
+        $cent = explode(".",  (string) $entero);
+        try {
+            $soncen = $cent[1];
+        } catch (\Exception $e) {
+            $soncen = 0;   
+        }
+
+        $porce = ($tipo->interes)*100;
+        $pornew = explode(".", (string)$porce);
+
+        $porcenta1 = \NumeroALetras::convertir($pornew[0]);
+
+        $porcenta2 = "";
+
+        try {
+            $por = $pornew[1];
+            $porcenta2 = \NumeroALetras::convertir($pornew[1]);
+        }catch (\Exception $e) {
+            $por = 0;   
+        }
+
+        if ($total>$prestamo->cuotadiaria) {
+            $n++;
+            $total=$total-$prestamo->cuotadiaria;
+        }
+
+        if($total!=0)
+        {
+            $n1 = \NumeroALetras::convertir($n+1);
+        }
+        else{
+            $n1 = \NumeroALetras::convertir($n); 
+        }
         
-        return $this -> crearPDF($vistaurl,$name,$nombre,$monto,$decimales,$dos,$cuenta,$n,$prestamo,$total,$anioaux,$mesaux,$diaaux,$nuevomes,$edad,$aniohoy,$meshoy,$diahoy,$tipo,$fechaex,$du1,$du2);
+        $n2 = \NumeroALetras::convertir($n); 
+
+        $otronue = (float)$cuota/100;
+        $excuota = explode(".", (string)$otronue*100);
+        $exculet = \NumeroALetras::convertir($cuota);
+        $excuota1 = \NumeroALetras::convertir($excuota[0]);
+        $longi = sizeof($excuota); 
+
+        if ($longi==2) {
+            $excuota2 = \NumeroALetras::convertir($excuota[1]);
+        }else{
+            $excuota2 = "";
+        }
+
+        $extota = explode(".", round($total,2));
+
+        $extoe = \NumeroALetras::convertir(round($total,2));
+
+        $extota1=\NumeroALetras::convertir((string)$extota[0]);
+
+        $logto = sizeof($extota);
+
+        if ($logto==2) {
+            $extota2 = \NumeroALetras::convertir((string)$extota[1]);
+        }else{
+            $extota2 = "";
+        }
+
+        $diaaus = \NumeroALetras::convertir($diaaux);
+        $nuevomess = \NumeroALetras::convertir($nuevomes);
+        $anius = \NumeroALetras::convertir($anioaux);
+
+        return $this -> crearPDF($vistaurl,$name,$nombre,$monto,$decimales,$dos,$cuenta,$n,$prestamo,$total,$anioaux,$mesaux,$diaaux,$nuevomes,$edad,$aniohoy,$meshoy,$diahoy,$tipo,$fechaex,$du1,$du2,$ni1,$ni2,$ni3,$ni4,$newdui,$newnit,$rest,$dui,$nit,$soncen,$cent,$porcenta1,$porcenta2,$por,$n1,$n2,$exculet,$longi,$excuota2,$extoe,$logto,$extota2,$diaaus,$nuevomess,$anius,$extota1);
     }
 
-    public function crearPDF($vistaurl,$name,$nombre,$monto,$decimales,$dos,$cuenta,$n,$prestamo,$total,$anioaux,$mesaux,$diaaux,$nuevomes,$edad,$aniohoy,$meshoy,$diahoy,$tipo,$fechaex,$du1,$du2)
+    public function crearPDF($vistaurl,$name,$nombre,$monto,$decimales,$dos,$cuenta,$n,$prestamo,$total,$anioaux,$mesaux,$diaaux,$nuevomes,$edad,$aniohoy,$meshoy,$diahoy,$tipo,$fechaex,$du1,$du2,$ni1,$ni2,$ni3,$ni4,$newdui,$newnit,$rest,$dui,$nit,$soncen,$cent,$porcenta1,$porcenta2,$por,$n1,$n2,$exculet,$longi,$excuota2,$extoe,$logto,$extota2,$diaaus,$nuevomess,$anius,$extota1)
     {
 
-        $view=\View::make($vistaurl,compact('nombre','monto','decimales','dos','cuenta','n','prestamo','total','anioaux','mesaux','diaaux','nuevomes','edad','aniohoy','meshoy','diahoy','tipo','fechaex','du1','du2'))->render();
+        $view=\View::make($vistaurl,compact('nombre','monto','decimales','dos','cuenta','n','prestamo','total','anioaux','mesaux','diaaux','nuevomes','edad','aniohoy','meshoy','diahoy','tipo','fechaex','du1','du2','ni1','ni2','ni3','ni4','newdui','newnit','rest','dui','nit','soncen','cent','porcenta1','porcenta2','por','n1','n2','excu2','excuota2','exculet','longi','excuota2','extoe','logto','extota2','diaaus','nuevomess','anius','extota1'))->render();
         $pdf =\App::make('dompdf.wrapper');
 
         $pdf->loadHTML($view);
@@ -230,13 +305,18 @@ class RecordClienteController extends Controller
         try {
             $saldoact = DetalleLiquidacion::where('idcuenta','=',$cuenta->idcuenta)
             ->orderby('iddetalleliquidacion','asc')
-            ->where('estado','=','PENDIENTE')->first();
+            ->where('estado','=','PENDIENTE')->orwhere('estado','=','ATRASO')->first();
             if ($saldoact->monto==NULL) {
                 $salmon=0;
             }else{
                 $salmon=$saldoact->monto;}
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $salmon = 0;
+        }
+
+        if ($total>$prestamo->cuotadiaria) {
+            $n++;
+            $total=$total-$prestamo->cuotadiaria;
         }
          
         return $this -> crearPDFRecibo($vistaurl,$cliente,$tipo,$cuenta,$prestamo,$negocio,$cobro,$recargo,$abonoA,$abonoB,$compleA,$compleB,$cuotaA,$cuotaB,$gastos,$pretotal,$desc,$numeri,$hoy,$idrecibo,$atraso,$salmon,$cuotasatrasadas,$nombre);
