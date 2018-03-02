@@ -82,6 +82,7 @@ class ClienteController extends Controller
                 $cliente->telefonocel = $request->get('telefonocel');
                 $cliente->telefonofijo = $request->get('telefonofijo');
                 $cliente->direccion = $request->get('direccionCliente');
+                $cliente->profesion = $request->get('profesion');
                 $cliente->estado = 'ACTIVO';
 
                 $cliente->save();
@@ -184,6 +185,7 @@ class ClienteController extends Controller
                 $cliente->direccion = $request->get('direccionCliente');
                 $cliente->telefonocel = $request->get('telefonocel');
                 $cliente->telefonofijo = $request->get('telefonofijo');
+                $cliente->profesion = $request->get('profesion');
                 $cliente->estado = 'ACTIVO';
 
                 $cliente->update();

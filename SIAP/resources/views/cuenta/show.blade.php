@@ -112,8 +112,10 @@
                   </tr>
                 </tbody>
               </table>
+              @if($usuarioactual->idtipousuario==1) 
               <a href="{{URL::action('ClienteController@edit',$cliente->idcliente)}}" class="btn btn-primary  pull-right">Actualizar</a>
-            </div>
+           @endif
+           </div>
           </div>
         </div>
       </div>
@@ -176,8 +178,10 @@
 
                 </tbody>
               </table>
+              @if($usuarioactual->idtipousuario==1) 
               <a href="{{URL::action('NegocioController@edit',$negocio->idnegocio)}}" class="btn btn-primary  pull-right">Actualizar</a>
-            </div>
+             @endif
+              </div>
           </div>
         </div>
       </div>

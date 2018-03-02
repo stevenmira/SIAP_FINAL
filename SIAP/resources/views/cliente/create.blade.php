@@ -108,7 +108,7 @@
             </div>
           </div>
 
-          <div class="row">
+          <div class="row"> 
             <div class="form-group col-md-4">
               <label for="nit">NIT</label>
               <div class="input-group">
@@ -119,6 +119,37 @@
               </div>
             </div>
 
+            <div class="form-group col-md-4">
+              <label for="edad">Edad</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                </div>
+                {!! Form::number('edad', null, ['class' => 'form-control' , 'required' => 'required', 'placeholder'=>' Edad . . .', 'autofocus'=>'on']) !!}
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="direccionCliente">Dirección del cliente</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </div>
+                {!! Form::textarea('direccionCliente', null, ['class' => 'form-control' , 'required' => 'required', 'placeholder'=>'Introduzca la dirección del cliente . . .', 'autofocus'=>'on', 'rows'=>'3']) !!}
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label for="profesion">Profesion</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </div>
+                {!! Form::text('profesion', null, ['class' => 'form-control', 'placeholder'=>'Introduzca la profesion del cliente. . .', 'autofocus'=>'on', 'maxlength'=>'50']) !!}
+              </div>
+            </div>
             <div class="form-group col-md-4">
               <label for="telefonocel">Teléfono celular</label>
               <div class="input-group">
@@ -138,31 +169,10 @@
                 {!! Form::text('telefonofijo', null, ['class' => 'form-control' ,'placeholder'=>'Tel. Fijo . . .', 'autofocus'=>'on', 'data-inputmask'=>'"mask": "9999-9999"',  'data-mask'=>'on']) !!}
               </div>
             </div>
-
           </div>
 
-          <div class="row"> 
+          
 
-          <div class="form-group col-md-4">
-              <label for="edad">Edad</label>
-              <div class="input-group">
-                <div class="input-group-addon">
-                  <i class="fa fa-calendar" aria-hidden="true"></i>
-                </div>
-                {!! Form::number('edad', null, ['class' => 'form-control' , 'required' => 'required', 'placeholder'=>' Edad . . .', 'autofocus'=>'on']) !!}
-              </div>
-            </div>
-            
-            <div class="form-group col-md-8">
-              <label for="direccionCliente">Dirección del cliente</label>
-              <div class="input-group">
-                <div class="input-group-addon">
-                  <i class="fa fa-pencil" aria-hidden="true"></i>
-                </div>
-                {!! Form::textarea('direccionCliente', null, ['class' => 'form-control' , 'required' => 'required', 'placeholder'=>'Introduzca la dirección del cliente . . .', 'autofocus'=>'on', 'rows'=>'1']) !!}
-              </div>
-            </div>
-          </div>
 
           <div class="row">
             <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12" id="guardar">
