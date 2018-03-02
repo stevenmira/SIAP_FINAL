@@ -147,7 +147,7 @@ class ComprobanteController extends Controller
                     ['estado', '=', 'PENDIENTE'],
                     ['idcuenta', '=', $id],
                     ])->count();
-
+                    $tcuotascanceladas=$tcuotascanceladas-1;
                     $totalcancelado=$tcuotascanceladas*$cliente->cuotadiaria;
                 }else{
             $tcuotascanceladas=$tcuotascanceladas-1;
@@ -300,15 +300,12 @@ class ComprobanteController extends Controller
             
 
             if($tcuotascanceladas==0){
-               
                 $tcuotascanceladas=DB::table('detalle_liquidacion')->where([
                     ['estado', '=', 'PENDIENTE'],
                     ['idcuenta', '=', $id],
                     ])->count();
-
+                    $tcuotascanceladas=$tcuotascanceladas-1;
                     $totalcancelado=$tcuotascanceladas*$cliente->cuotadiaria;
-                
-            
             }else{
             $tcuotascanceladas=$tcuotascanceladas-1;
             $totalcancelado=$tcuotascanceladas*$cliente->cuotadiaria;
