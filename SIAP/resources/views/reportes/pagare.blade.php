@@ -136,9 +136,9 @@
 					{{strtolower($ni4)}}
 				@endif
 			@endif
-			,  por este PAGARE, me obligo a pagar incondicionalmente en la ciudad de Tepecoyo, departamento de La Libertad al señor <b>GREGORIO ROSALES PORTILLO,</b> de {{$edad}} años de edad, contador, del domicilio de Tepecoyo, departamento de La Libertad, portador de Documento Único de Identidad número cero dos millones dieciocho mil setecientos setenta y seis - siete y Número de Identificación Tributaria cero  quinientos veintiuno – cero  treinta mil novecientos sesenta y nueve - ciento uno - nueve, actuando en nombre y representación  Sociedad <b>ASESORES FINANCIEROS MICRO IMPULSADORES DE NEGOCIOS SOCIEDAD ANÓNIMA DE CAPITAL VARIABLE,</b> y que puede abreviarse <b>AFIMID, S.A. DE C.V.</b>  con número de identificación tributaria cero seiscientos catorce - trescientos un mil diecisiete - ciento tres - cero; en calidad de Administrador Único Propietario de la Sociedad, por la suma de: <span><b>{{$monto}} 
-			@if($soncen!=0)
-				CENTAVOS DE DOLAR
+			,  por este PAGARE, me obligo a pagar incondicionalmente en la ciudad de Tepecoyo, departamento de La Libertad al señor <b>GREGORIO ROSALES PORTILLO,</b> de {{$edad}} años de edad, contador, del domicilio de Tepecoyo, departamento de La Libertad, portador de Documento Único de Identidad número cero dos millones dieciocho mil setecientos setenta y seis - siete y Número de Identificación Tributaria cero  quinientos veintiuno – cero  treinta mil novecientos sesenta y nueve - ciento uno - nueve, actuando en nombre y representación  Sociedad <b>ASESORES FINANCIEROS MICRO IMPULSADORES DE NEGOCIOS SOCIEDAD ANÓNIMA DE CAPITAL VARIABLE,</b> y que puede abreviarse <b>AFIMID, S.A. DE C.V.</b>  con número de identificación tributaria cero seiscientos catorce - trescientos un mil diecisiete - ciento tres - cero; en calidad de Administrador Único Propietario de la Sociedad, por la suma de: <span><b>{{strtolower($monto)}} @if($sepa!='00') con {{strtolower($sepa1)}} @endif
+			@if($sepa!='00')
+				centavos de DOLAR
 			@else
 				DOLARES
 			@endif
@@ -157,14 +157,18 @@
 			@else
 				<b>PUNTO {{$porcenta2}}</b>
 			@endif
-			<b>POR CIENTO</b> diario sobre saldo deudor, para el plazo de <b>{{$n1}}</b>días, contando a partir de esta fecha, pagadas por medio de <b>{{$n2}}</b> cuotas de <b>{{$exculet}}</b>
+			<b>POR CIENTO</b> diario sobre saldo deudor, para el plazo de <b>{{$n1}}</b>días, contando a partir de esta fecha, pagadas por medio de <b>{{$n2}}</b> cuotas de <b> @if($longi==1) {{$exculet}} @else {{$cuo1}} CON {{$cuo2}} @endif</b>
 			@if($longi==2)
 				<b>CENTAVOS DE</b>
 			@endif
 			@if($exculet=='UN ')
 				<b>DÓLAR DE LOS ESTADOS UNIDOS DE AMÉRICA</b> 
 			@else
-				<b>DÓLAR DE LOS ESTADOS UNIDOS DE AMÉRICA</b>
+				@if($longi==1)
+					<b>DÓLARES DE LOS ESTADOS UNIDOS DE AMÉRICA</b>
+				@else 
+				 	<b>DÓLAR DE LOS ESTADOS UNIDOS DE AMÉRICA</b>
+				 @endif
 			@endif
 
 			@if($total!=0)

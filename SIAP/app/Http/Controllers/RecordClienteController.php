@@ -67,8 +67,16 @@ class RecordClienteController extends Controller
         $prestamo = Prestamo::where('idprestamo',$cuenta->idprestamo)->first();
         $tipo = TipoCredito::where('idtipocredito',$cuenta->idtipocredito)->first();
 
-        $entero = round($prestamo->monto);
-        $monto = \NumeroALetras::convertir((float)$entero);
+        $entero = (string)$prestamo->monto+0.00001;
+
+        $separ = explode(".", $entero);
+        $monto = \NumeroALetras::convertir($separ[0]);
+
+        $unaux = $separ[1];
+        $sepa = substr($separ[1],-5,2);
+
+        $sepa1 = \NumeroALetras::convertir($sepa);
+
 
         //Calculo de decimales
         $montoS = $prestamo->monto;
@@ -181,7 +189,7 @@ class RecordClienteController extends Controller
         $excuota = explode(".", (string)$otronue*100);
         $exculet = \NumeroALetras::convertir($cuota);
         $excuota1 = \NumeroALetras::convertir($excuota[0]);
-        $longi = sizeof($excuota); 
+        $longi = sizeof($excuota);
 
         if ($longi==2) {
             $excuota2 = \NumeroALetras::convertir($excuota[1]);
@@ -207,13 +215,22 @@ class RecordClienteController extends Controller
         $nuevomess = \NumeroALetras::convertir($nuevomes);
         $anius = \NumeroALetras::convertir($anioaux);
 
-        return $this -> crearPDF($vistaurl,$name,$nombre,$monto,$decimales,$dos,$cuenta,$n,$prestamo,$total,$anioaux,$mesaux,$diaaux,$nuevomes,$edad,$aniohoy,$meshoy,$diahoy,$tipo,$fechaex,$du1,$du2,$ni1,$ni2,$ni3,$ni4,$newdui,$newnit,$rest,$dui,$nit,$soncen,$cent,$porcenta1,$porcenta2,$por,$n1,$n2,$exculet,$longi,$excuota2,$extoe,$logto,$extota2,$diaaus,$nuevomess,$anius,$extota1);
+        $aummile = $cuota+0.00001;
+        $explo = explode(".",(string)$aummile);
+
+        $cuo1 = \NumeroALetras::convertir($explo[0]);
+
+        $exxxx = substr($explo[1],-5,2);
+        $cuo2 = \NumeroALetras::convertir($exxxx);
+
+
+        return $this -> crearPDF($vistaurl,$name,$nombre,$monto,$decimales,$dos,$cuenta,$n,$prestamo,$total,$anioaux,$mesaux,$diaaux,$nuevomes,$edad,$aniohoy,$meshoy,$diahoy,$tipo,$fechaex,$du1,$du2,$ni1,$ni2,$ni3,$ni4,$newdui,$newnit,$rest,$dui,$nit,$soncen,$cent,$porcenta1,$porcenta2,$por,$n1,$n2,$exculet,$longi,$excuota2,$extoe,$logto,$extota2,$diaaus,$nuevomess,$anius,$extota1,$sepa1,$sepa,$explo,$cuo2,$exxxx,$cuo1);
     }
 
-    public function crearPDF($vistaurl,$name,$nombre,$monto,$decimales,$dos,$cuenta,$n,$prestamo,$total,$anioaux,$mesaux,$diaaux,$nuevomes,$edad,$aniohoy,$meshoy,$diahoy,$tipo,$fechaex,$du1,$du2,$ni1,$ni2,$ni3,$ni4,$newdui,$newnit,$rest,$dui,$nit,$soncen,$cent,$porcenta1,$porcenta2,$por,$n1,$n2,$exculet,$longi,$excuota2,$extoe,$logto,$extota2,$diaaus,$nuevomess,$anius,$extota1)
+    public function crearPDF($vistaurl,$name,$nombre,$monto,$decimales,$dos,$cuenta,$n,$prestamo,$total,$anioaux,$mesaux,$diaaux,$nuevomes,$edad,$aniohoy,$meshoy,$diahoy,$tipo,$fechaex,$du1,$du2,$ni1,$ni2,$ni3,$ni4,$newdui,$newnit,$rest,$dui,$nit,$soncen,$cent,$porcenta1,$porcenta2,$por,$n1,$n2,$exculet,$longi,$excuota2,$extoe,$logto,$extota2,$diaaus,$nuevomess,$anius,$extota1,$sepa1,$sepa,$explo,$cuo2,$exxxx,$cuo1)
     {
 
-        $view=\View::make($vistaurl,compact('nombre','monto','decimales','dos','cuenta','n','prestamo','total','anioaux','mesaux','diaaux','nuevomes','edad','aniohoy','meshoy','diahoy','tipo','fechaex','du1','du2','ni1','ni2','ni3','ni4','newdui','newnit','rest','dui','nit','soncen','cent','porcenta1','porcenta2','por','n1','n2','excu2','excuota2','exculet','longi','excuota2','extoe','logto','extota2','diaaus','nuevomess','anius','extota1'))->render();
+        $view=\View::make($vistaurl,compact('nombre','monto','decimales','dos','cuenta','n','prestamo','total','anioaux','mesaux','diaaux','nuevomes','edad','aniohoy','meshoy','diahoy','tipo','fechaex','du1','du2','ni1','ni2','ni3','ni4','newdui','newnit','rest','dui','nit','soncen','cent','porcenta1','porcenta2','por','n1','n2','excu2','excuota2','exculet','longi','excuota2','extoe','logto','extota2','diaaus','nuevomess','anius','extota1','sepa1','sepa','explo','cuo2','exxxx','cuo1'))->render();
         $pdf =\App::make('dompdf.wrapper');
 
         $pdf->loadHTML($view);
