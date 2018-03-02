@@ -143,8 +143,13 @@ class ComprobanteController extends Controller
             ])->count();
             
             if($tcuotascanceladas==0){
-                $totalcancelado=$tcuotascanceladas*$cliente->cuotadiaria;
-            }else{
+                $tcuotascanceladas=DB::table('detalle_liquidacion')->where([
+                    ['estado', '=', 'PENDIENTE'],
+                    ['idcuenta', '=', $id],
+                    ])->count();
+
+                    $totalcancelado=$tcuotascanceladas*$cliente->cuotadiaria;
+                }else{
             $tcuotascanceladas=$tcuotascanceladas-1;
             $totalcancelado=$tcuotascanceladas*$cliente->cuotadiaria;
             }
@@ -293,9 +298,23 @@ class ComprobanteController extends Controller
             ['idcuenta', '=', $id],
             ])->count();
             
-            $tcuotascanceladas=$tcuotascanceladas-1;
 
+            if($tcuotascanceladas==0){
+               
+                $tcuotascanceladas=DB::table('detalle_liquidacion')->where([
+                    ['estado', '=', 'PENDIENTE'],
+                    ['idcuenta', '=', $id],
+                    ])->count();
+
+                    $totalcancelado=$tcuotascanceladas*$cliente->cuotadiaria;
+                
+            
+            }else{
+            $tcuotascanceladas=$tcuotascanceladas-1;
             $totalcancelado=$tcuotascanceladas*$cliente->cuotadiaria;
+            }
+
+            
            
             
             //SE OBTIENE LA ULTIMA CUOTA
