@@ -24,7 +24,7 @@
 	<br>
 	<table>
 		<div align="justify" style="page-break-after: always;">
-			Yo, <span><b>{{strtoupper( $nombre -> nombre)}} {{strtoupper( $nombre -> apellido )}},</b></span> mayor edad, portador de Documento Único de Indentidad número
+			Yo, <span><b>{{strtoupper( $nombre -> nombre)}} {{strtoupper( $nombre -> apellido )}},</b></span> mayor edad, @if($nombre->profesion!=''&&$nombre->profesion!=' ') {{$nombre->profesion}}, @endif portador de Documento Único de Indentidad número
 			
 			@if(substr($dui, -10, 1)==0)
 				cero
