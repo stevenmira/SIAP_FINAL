@@ -24,7 +24,7 @@
 	<br>
 	<table>
 		<div align="justify" style="page-break-after: always;">
-			Yo, <span><b>{{strtoupper( $nombre -> nombre)}} {{strtoupper( $nombre -> apellido )}},</b></span> mayor edad, @if($nombre->profesion!=''&&$nombre->profesion!=' ') {{$nombre->profesion}}, @endif portador de Documento Único de Indentidad número
+			Yo, <span><b>{{strtoupper( $nombre -> nombre)}} {{strtoupper( $nombre -> apellido )}},</b></span> mayor edad, @if($nombre->profesion!=''&&$nombre->profesion!=' ') {{$nombre->profesion}}, @endif portador de Documento Único de Identidad número
 			
 			@if(substr($dui, -10, 1)==0)
 				cero
@@ -133,10 +133,10 @@
 				@if($newnit[3]=="0")
 					cero
 				@else
-					{{strtolower($ni3)}}
+					{{strtolower($ni4)}}
 				@endif
 			@endif
-			,  por este PAGARE, me obligo a pagar incondicionalmente en la ciudad de Tepecoyo, departamento de La Libertad al señor <b>GREGORIO ROSALES PORTILLO,</b> de {{$edad}} años de edad, contador, del domicilio de Tepecoyo, departamento de La Libertad, portador de Documento Único de Identidad número cero dos millones dieciocho mil setecientos setenta y seis - siete y Número de Identificación Tributaria cero  quinientos veintiuno – cero  treinta mil novecientos sesenta y nueve - ciento uno - nueve, actuando en nombre y representación  Sociedad <b>ASESORES FINANCIEROS MICRO IMPULSADORES DE NEGOCIOS SOCIEDAD ANÓNIMA DE CAPITAL VARIABLE,</b> y que puede abreviarse <b>AFIMID, S.A. DE C.V.</b>  con número de identificación tributaria cero seiscientos catorce - trescientos un mil diecisiete - ciento tres - cero; en calidad de Administrador Único Propietario de la Sociedad, por la suma de: <span><b>{{strtolower($monto)}} 
+			,  por este PAGARE, me obligo a pagar incondicionalmente en la ciudad de Tepecoyo, departamento de La Libertad al señor <b>GREGORIO ROSALES PORTILLO,</b> de {{$edad}} años de edad, contador, del domicilio de Tepecoyo, departamento de La Libertad, portador de Documento Único de Identidad número cero dos millones dieciocho mil setecientos setenta y seis - siete y Número de Identificación Tributaria cero  quinientos veintiuno – cero  treinta mil novecientos sesenta y nueve - ciento uno - nueve, actuando en nombre y representación  Sociedad <b>ASESORES FINANCIEROS MICRO IMPULSADORES DE NEGOCIOS SOCIEDAD ANÓNIMA DE CAPITAL VARIABLE,</b> y que puede abreviarse <b>AFIMID, S.A. DE C.V.</b>  con número de identificación tributaria cero seiscientos catorce - trescientos un mil diecisiete - ciento tres - cero; en calidad de Administrador Único Propietario de la Sociedad, por la suma de: <span><b>{{$monto}} 
 			@if($soncen!=0)
 				CENTAVOS DE DOLAR
 			@else

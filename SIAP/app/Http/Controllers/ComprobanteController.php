@@ -535,14 +535,14 @@ class ComprobanteController extends Controller
         $usuarioactual=\Auth::user();
 
         $cliente = DB::table('cuenta')
-        ->select('cuenta.idcuenta','cuenta.interes','cliente.nombre', 'cliente.apellido','cliente.dui','cliente.nit','cliente.direccion','cuenta.estado','prestamo.estadodos','prestamo.cuotadiaria')
+        ->select('cuenta.idcuenta','cuenta.interes','negocio.nombre as nnegocio','cliente.nombre', 'cliente.apellido','cliente.dui','cliente.nit','cliente.direccion','cuenta.estado','prestamo.estadodos','prestamo.cuotadiaria')
         ->join('negocio as negocio','cuenta.idnegocio','=','negocio.idnegocio')
         ->join('cliente as cliente','negocio.idcliente','=','cliente.idcliente')
         ->join('prestamo as prestamo','cuenta.idprestamo','=','prestamo.idprestamo')
         ->join('comprobante as comprobante','cuenta.idcuenta','=','comprobante.idcuenta')
         ->where('comprobante.idcomprobante','=',$id)
         ->first();
-
+        
         $cuenta = Cuenta::findOrFail($cliente->idcuenta);
         $negocio = Negocio::where('idnegocio',$cuenta->idnegocio)->first();
         $cli = Cliente::where('idcliente',$negocio->idcliente)->first();
@@ -598,7 +598,7 @@ class ComprobanteController extends Controller
         $nuvfecha=date("Y-m-d",strtotime("$ultima + ".$cont." days "));
         $liquidacion->fechadiaria=$nuvfecha;
 
-        if($estadoc->estado=="VENCIDO"){
+        if($estadoc->estado=="VENCIDO"|| $estadoc->estado=="CERRADO"){
             $vistaurl="reportes/estadoCuentaVencido";
             $name = "EstadoCuentaVencido".$id.$negocio->nombre.".pdf";
             $subtotal=$estadoc->ultimacuota+$estadoc->totalcuotasdeuda+$estadoc->totalpendiente+$estadoc->mora;

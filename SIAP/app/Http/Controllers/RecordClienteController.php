@@ -67,8 +67,8 @@ class RecordClienteController extends Controller
         $prestamo = Prestamo::where('idprestamo',$cuenta->idprestamo)->first();
         $tipo = TipoCredito::where('idtipocredito',$cuenta->idtipocredito)->first();
 
-        $entero = $prestamo->monto;
-        $monto = \NumeroALetras::convertir($entero);
+        $entero = round($prestamo->monto);
+        $monto = \NumeroALetras::convertir((float)$entero);
 
         //Calculo de decimales
         $montoS = $prestamo->monto;
@@ -228,12 +228,25 @@ class RecordClienteController extends Controller
         $cliente = Cliente::where('idcliente',$negocio->idcliente)->first();
         $reciboAct = Recibo::where('estado','ACTIVO')->first();
 
+        try {
+            $saldoact = DetalleLiquidacion::where('idcuenta','=',$cuenta->idcuenta)
+            ->orderby('iddetalleliquidacion','asc')
+            ->where('estado','=','PENDIENTE')->orwhere('estado','=','ATRASO')->first();
+            if ($saldoact->monto==NULL) {
+                $salmon=0;
+            }else{
+                $salmon=$saldoact->monto;}
+        } catch (\Exception $e) {
+            $salmon = 0;
+        }
+
+
         $cuotasatrasadas = DB::table('detalle_liquidacion')->where([
                 ['estado', '=', 'ATRASO'],
                 ['idcuenta', '=', $id],
                 ])->count();
 
-        return view('reportes.menuRecibo',["cuenta"=>$cuenta,"negocio"=>$negocio,"cliente"=>$cliente,'reciboAct'=>$reciboAct,"cuotasatrasadas"=>$cuotasatrasadas])->with('usuarioactual',  $usuarioactual);
+        return view('reportes.menuRecibo',["cuenta"=>$cuenta,"negocio"=>$negocio,"cliente"=>$cliente,'reciboAct'=>$reciboAct,"cuotasatrasadas"=>$cuotasatrasadas,"salmon"=>$salmon])->with('usuarioactual',  $usuarioactual);
     }
 
     public function show (Request $request){
@@ -314,11 +327,8 @@ class RecordClienteController extends Controller
             $salmon = 0;
         }
 
-        if ($total>$prestamo->cuotadiaria) {
-            $n++;
-            $total=$total-$prestamo->cuotadiaria;
-        }
-         
+        $salmon = $request->get('salmon');
+
         return $this -> crearPDFRecibo($vistaurl,$cliente,$tipo,$cuenta,$prestamo,$negocio,$cobro,$recargo,$abonoA,$abonoB,$compleA,$compleB,$cuotaA,$cuotaB,$gastos,$pretotal,$desc,$numeri,$hoy,$idrecibo,$atraso,$salmon,$cuotasatrasadas,$nombre);
     }
 
