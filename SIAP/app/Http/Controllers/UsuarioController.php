@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use siap\User;
 use siap\TipoUsuario;
 use siap\Http\Requests;
+
 use Illuminate\Support\Facades\Response;
 use siap\Http\Requests\UsuarioFormRequest;
 use Illuminate\Support\Facades\Redirect;
@@ -40,6 +41,7 @@ class UsuarioController extends Controller
      $data = $request;
      $usuario= new User;
      $usuario->nombre =  $data['nombre'];
+   
      $usuario->name=$data['name'];
      $usuario->email=$data['email'];
      $usuario->idtipousuario=$data['idtipousuario'];
@@ -65,7 +67,7 @@ class UsuarioController extends Controller
         
     }
     
-     public function update(UsuarioFormRequest $request, $id)
+     public function update(Request $request, $id)
     {
      $usuario = User::findOrFail($id);
      $data = $request;

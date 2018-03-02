@@ -51,11 +51,11 @@
         			</div>
     			</div>
                 <div class="form-group col-md-1 ">
-                    <label>N° Recibo</label>
+                    <label>Saldo ACTUAL</label>
                 </div>
                 <div class="form-group col-md-1">
                     <div class="input-group">
-                        {!! Form::text('recibo', $reciboAct->numerico, ['class' => 'form-control' , 'required' => 'required', 'autofocus'=>'on']) !!}
+                        {!! Form::text('salmon', $salmon, ['class' => 'form-control' , 'required' => 'required', 'autofocus'=>'on']) !!}
                     </div>
                 </div>
 			</div>
@@ -72,11 +72,11 @@
         			</div>
     			</div>
                 <div class="form-group col-md-1 ">
-                    <label>N° Cuotas Atrasadas</label>
+                    <label>N° Recibo</label>
                 </div>
                 <div class="form-group col-md-1">
                     <div class="input-group">
-                        {!! Form::text('cuotasatrasadas', $cuotasatrasadas, ['class' => 'form-control' , 'required' => 'required', 'autofocus'=>'on']) !!}
+                        {!! Form::text('recibo', $reciboAct->numerico, ['class' => 'form-control' , 'required' => 'required', 'autofocus'=>'on']) !!}
                     </div>
                 </div>
 			</div>
@@ -87,7 +87,7 @@
     			<div class="form-group col-md-1">
     				<input style="width: 80px;" type="number" step="any" class="form-control" name="abonoA" id="abonoA" placeholder="N°">
     			</div> 
-    			<div class="form-group col-md-4">
+    			<div class="form-group col-md-3">
         			<div class="input-group">
             			<div class="input-group-addon">
                 			<i class="fa fa-list-alt" aria-hidden="true"></i>
@@ -95,6 +95,15 @@
             			<input style="width: 150px;" type="number" step="any" class="form-control" name="abonoB" id="abonoB" placeholder="Ingresar monto..">
         			</div>
     			</div>
+                <div class="form-group col-md-1 ">
+                    <label>N° Cuotas Atrasadas</label>
+                </div>
+                <div class="form-group col-md-1">
+                    <div class="input-group">
+                        {!! Form::text('cuotasatrasadas', $cuotasatrasadas, ['class' => 'form-control' , 'required' => 'required', 'autofocus'=>'on']) !!}
+                    </div>
+                </div>
+
 			</div>
 			<div class="row">
 				<div class="form-group col-md-2">
