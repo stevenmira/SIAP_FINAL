@@ -24,10 +24,10 @@ class UsuarioFormRequest extends Request
     public function rules()
     {
         return [
-            'nombre'=>'required',
-            'name'=>'required',
+            'nombre'=>'required|unique:users,nombre',
+            'name'=>'required|unique:users,name',
             'password'=>'required',
-            'email'=>'required',
+            'email'=>'required|unique:users,email',
            
         ];
     }
@@ -36,7 +36,7 @@ class UsuarioFormRequest extends Request
     {
         return [
 
-            //pago
+           
             
             
         ];

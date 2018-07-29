@@ -109,7 +109,7 @@
                             <td> <b>${{$totalcancelado}}</b></td>
                           </tr>
                           <tr>
-                            <td><b>{{$ultimacuota}}</b> CUOTA DE <b>${{$liquidacion->monto}}</b> DEL </td>
+                            <td><b>{{$ultimacuota}}</b> CUOTA DE <b>${{$liquidacion->monto}}</b></td>
                             <td> <b>${{$liquidacion->monto}}</b></td>
                           </tr>
                           <tr>

@@ -196,7 +196,7 @@ class ComprobanteController extends Controller
         }
 
             //CALCULO DE RANGO DE FECHAS PARA CUOTAS PENDIENTES
-            $lpendiente=DB::table('detalle_liquidacion')->where([
+           /* $lpendiente=DB::table('detalle_liquidacion')->where([
                 ['estado', '=', 'ATRASO'],
                 ['idcuenta', '=', $id],
                 ['monto','!=',null],])
@@ -215,10 +215,10 @@ class ComprobanteController extends Controller
             $dia = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
             $mese = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
             $fechafinal =  $dia[date('w')]." ".date('d')." de ".$mese[date('n')-1]. " del ".date('Y');
-            
+            */
             $subtotal= $liquidacion->monto+$totalcancelado+$tcuotaspendientes+$mora;
            $subtotal=round($subtotal,2);
-            return view('estadoCuenta.vencido.create',[ "liquidacio"=>$liquidacio,"cuotaCapital"=>$cuotaCapital,"fechapendiente"=>$fechapendiente,"fechafinal"=>$fechafinal,"mora"=>$mora,"diasatrasados"=>$diasatrasados,"cuotaspendientes"=>$cuotaspendientes,"tcuotaspendientes"=>$tcuotaspendientes,"totalcancelado"=>$totalcancelado, "ultimacuota"=>$ultimacuota, "tcuotascanceladas"=>$tcuotascanceladas,"fechaactual"=>$fechaactual,"usuarioactual"=>$usuarioactual,"cliente"=>$cliente,"subtotal"=>$subtotal,"liquidacion"=>$liquidacion,"cuotasatrasadas"=>$cuotasatrasadas,"totalcuotas"=>$totalcuotas]);
+            return view('estadoCuenta.vencido.create',[ "liquidacio"=>$liquidacio,"cuotaCapital"=>$cuotaCapital,"mora"=>$mora,"diasatrasados"=>$diasatrasados,"cuotaspendientes"=>$cuotaspendientes,"tcuotaspendientes"=>$tcuotaspendientes,"totalcancelado"=>$totalcancelado, "ultimacuota"=>$ultimacuota, "tcuotascanceladas"=>$tcuotascanceladas,"fechaactual"=>$fechaactual,"usuarioactual"=>$usuarioactual,"cliente"=>$cliente,"subtotal"=>$subtotal,"liquidacion"=>$liquidacion,"cuotasatrasadas"=>$cuotasatrasadas,"totalcuotas"=>$totalcuotas]);
         }
         else{
             $subtotal=$totalcuotas+$liquidacion->monto;
@@ -432,7 +432,7 @@ class ComprobanteController extends Controller
         $estado->gastosnotariales= $data['gastosnoti'];
         
         if(($cliente->estadodos=="VENCIDO" || $cliente->estadodos=="CERRADO") && $estado->estado=="VENCIDO"){
-           
+            
             $estado->mora=$estado->mora;
             $estado->diasatrasados= $estado->diasatrasados;
             $estado->totalcuotas=0;
@@ -442,7 +442,9 @@ class ComprobanteController extends Controller
             $estado->totalcuotasdeuda=$estado->totalcuotasdeuda;
             $estado->ultimacuota=$estado->ultimacuota;
             $estado->montoactual=$estado->montoactual;
-            $estado->total = $subtotal+$estado->gastosadmon+$estado->gastosnotariales; 
+            $total=$subtotal+$estado->gastosadmon+$estado->gastosnotariales; 
+            $total=round($total,2);
+            $estado->total = $total;
             $estado->estado='VENCIDO';
             $estado->estadodos='NO CANCELADO';
         }
